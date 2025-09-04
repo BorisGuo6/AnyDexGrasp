@@ -1,4 +1,4 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: urx
 Version: 0.11.0
 Summary: Python library to control an UR robot
@@ -17,3 +17,12 @@ Provides: urx
 License-File: COPYING
 Requires-Dist: numpy
 Requires-Dist: math3d
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides
+Dynamic: requires-dist
+Dynamic: summary
