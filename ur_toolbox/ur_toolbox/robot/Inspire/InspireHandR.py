@@ -43,24 +43,24 @@ class InspireHandR:
         speed6 = 1000
         self.setspeed(speed1, speed2, speed3, speed4, speed5, speed6)
         self.set_clear_error()
-        self.f1_init_angle = 1000  # 小指初始位置
-        self.f2_init_angle = 1000  # 无名指初始位置
-        self.f3_init_angle = 1000  # 中指初始位置
-        self.f4_init_angle = 585  # 食指指初始位置
-        self.f5_init_angle = 545  # 拇指初始位置
-        self.f6_init_angle = 100  # 拇指转向掌心初始位置
+        self.f1_init_angle = 1000  # Little finger initial position
+        self.f2_init_angle = 1000  # Ring finger initial position
+        self.f3_init_angle = 1000  # Middle finger initial position
+        self.f4_init_angle = 585  # Index finger initial position
+        self.f5_init_angle = 545  # Thumb initial position
+        self.f6_init_angle = 100  # Thumb rotates toward the palm initial position
 
-        # 手部张开，测试用
-        # self.f1_init_pos = 0    #小指初始位置
-        # self.f2_init_pos = 0    #无名指初始位置
-        # self.f3_init_pos = 0    #中指初始位置
-        # self.f4_init_pos = 0    #食指指初始位置
-        # self.f5_init_pos = 0    #拇指初始位置
-        # self.f6_init_pos = 0    #拇指转向掌心初始位置
+        # Hand open, for testing
+        # self.f1_init_pos = 0    # Little finger initial position
+        # self.f2_init_pos = 0    # Ring finger initial position
+        # self.f3_init_pos = 0    # Middle finger initial position
+        # self.f4_init_pos = 0    # Index finger initial position
+        # self.f5_init_pos = 0    # Thumb initial position
+        # self.f6_init_pos = 0    # Thumb rotates toward the palm initial position
         # self.gesture_force_clb()
         self.reset()
 
-    # 把数据分成高字节和低字节
+    # Split data into high and low bytes
     def data2bytes(self, data):
         rdata = [0xff] * 2
         if data == -1:
@@ -71,7 +71,7 @@ class InspireHandR:
             rdata[1] = (data >> 8) & (0xff)
         return rdata
 
-    # 把十六进制或十进制的数转成bytes
+    # Convert hex/decimal number to bytes
     def num2str(self, num):
         str = hex(num)
         str = str[2:4]
@@ -81,7 +81,7 @@ class InspireHandR:
         # print(str)
         return str
 
-    # 求校验和
+    # Calculate checksum
     def checknum(self, data, leng):
         result = 0
         for i in range(2, leng):
@@ -94,44 +94,44 @@ class InspireHandR:
         global hand_id
 
         if pos1 < -1 or pos1 > 2000:
-            print('数据超出正确范围：-1-2000')
+            print('Value out of valid range: -1 to 2000')
             return
         if pos2 < -1 or pos2 > 2000:
-            print('数据超出正确范围：-1-2000')
+            print('Value out of valid range: -1 to 2000')
             return
         if pos3 < -1 or pos3 > 2000:
-            print('数据超出正确范围：-1-2000')
+            print('Value out of valid range: -1 to 2000')
             return
         if pos4 < -1 or pos4 > 2000:
-            print('数据超出正确范围：-1-2000')
+            print('Value out of valid range: -1 to 2000')
             return
         if pos5 < -1 or pos5 > 2000:
-            print('数据超出正确范围：-1-2000')
+            print('Value out of valid range: -1 to 2000')
             return
         if pos6 < -1 or pos6 > 2000:
-            print('数据超出正确范围：-1-2000')
+            print('Value out of valid range: -1 to 2000')
             return
 
         datanum = 0x0F
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0xC2
         b[6] = 0x05
 
-        # 数据
+        # Data
         b[7] = self.data2bytes(pos1)[0]
         b[8] = self.data2bytes(pos1)[1]
 
@@ -150,10 +150,10 @@ class InspireHandR:
         b[17] = self.data2bytes(pos6)[0]
         b[18] = self.data2bytes(pos6)[1]
 
-        # 校验和
+        # Checksum
         b[19] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -165,44 +165,44 @@ class InspireHandR:
 
     def setangle(self, angle1, angle2, angle3, angle4, angle5, angle6):
         if angle1 < -1 or angle1 > 1000:
-            print('数据超出正确范围：-1-1000')
+            print('Value out of valid range: -1 to 1000')
             return
         if angle2 < -1 or angle2 > 1000:
-            print('数据超出正确范围：-1-1000')
+            print('Value out of valid range: -1 to 1000')
             return
         if angle3 < -1 or angle3 > 1000:
-            print('数据超出正确范围：-1-1000')
+            print('Value out of valid range: -1 to 1000')
             return
         if angle4 < -1 or angle4 > 1000:
-            print('数据超出正确范围：-1-1000')
+            print('Value out of valid range: -1 to 1000')
             return
         if angle5 < -1 or angle5 > 1000:
-            print('数据超出正确范围：-1-1000')
+            print('Value out of valid range: -1 to 1000')
             return
         if angle6 < -1 or angle6 > 1000:
-            print('数据超出正确范围：-1-1000')
+            print('Value out of valid range: -1 to 1000')
             return
 
         datanum = 0x0F
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0xCE
         b[6] = 0x05
 
-        # 数据
+        # Data
         b[7] = self.data2bytes(angle1)[0]
         b[8] = self.data2bytes(angle1)[1]
 
@@ -221,10 +221,10 @@ class InspireHandR:
         b[17] = self.data2bytes(angle6)[0]
         b[18] = self.data2bytes(angle6)[1]
 
-        # 校验和
+        # Checksum
         b[19] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -233,47 +233,47 @@ class InspireHandR:
         getdata = self.ser.read(9)
 
 
-    # 设置力控阈值
+    # Set force control thresholds
     def setpower(self, power1, power2, power3, power4, power5, power6):
         if power1 < 0 or power1 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if power2 < 0 or power2 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if power3 < 0 or power3 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if power4 < 0 or power4 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if power5 < 0 or power5 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if power6 < 0 or power6 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
 
         datanum = 0x0F
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0xDA
         b[6] = 0x05
 
-        # 数据
+        # Data
         b[7] = self.data2bytes(power1)[0]
         b[8] = self.data2bytes(power1)[1]
 
@@ -292,10 +292,10 @@ class InspireHandR:
         b[17] = self.data2bytes(power6)[0]
         b[18] = self.data2bytes(power6)[1]
 
-        # 校验和
+        # Checksum
         b[19] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -304,47 +304,47 @@ class InspireHandR:
         getdata = self.ser.read(9)
 
 
-    # 设置速度
+    # Set speed
     def setspeed(self, speed1, speed2, speed3, speed4, speed5, speed6):
         if speed1 < 0 or speed1 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if speed2 < 0 or speed2 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if speed3 < 0 or speed3 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if speed4 < 0 or speed4 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if speed5 < 0 or speed5 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if speed6 < 0 or speed6 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
 
         datanum = 0x0F
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0xF2
         b[6] = 0x05
 
-        # 数据
+        # Data
         b[7] = self.data2bytes(speed1)[0]
         b[8] = self.data2bytes(speed1)[1]
 
@@ -363,10 +363,10 @@ class InspireHandR:
         b[17] = self.data2bytes(speed6)[0]
         b[18] = self.data2bytes(speed6)[1]
 
-        # 校验和
+        # Checksum
         b[19] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -375,34 +375,34 @@ class InspireHandR:
         getdata = self.ser.read(9)
  
 
-    # 读取驱动器实际的位置值
+    # Read actual position values from the driver
     def get_setpos(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0xC2
         b[6] = 0x05
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x0C
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -419,34 +419,34 @@ class InspireHandR:
                 setpos[i - 1] = getdata[i * 2 + 5] + (getdata[i * 2 + 6] << 8)
         return setpos
 
-    # 读取设置角度
+    # Read configured angles
     def get_setangle(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0xCE
         b[6] = 0x05
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x0C
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -463,34 +463,34 @@ class InspireHandR:
                 setangle[i - 1] = getdata[i * 2 + 5] + (getdata[i * 2 + 6] << 8)
         return setangle
 
-    # 读取驱动器设置的力控阈值
+    # Read configured force control thresholds from the driver
     def get_setpower(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0xDA
         b[6] = 0x05
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x0C
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -507,34 +507,34 @@ class InspireHandR:
                 setpower[i - 1] = getdata[i * 2 + 5] + (getdata[i * 2 + 6] << 8)
         return setpower
 
-    # 读取驱动器实际的位置值
+    # Read actual position values from the driver
     def get_actpos(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0xFE
         b[6] = 0x05
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x0C
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -551,34 +551,34 @@ class InspireHandR:
                 actpos[i - 1] = getdata[i * 2 + 5] + (getdata[i * 2 + 6] << 8)
         return actpos
 
-    # 读取实际的角度值
+    # Read actual angle values
     def get_actangle(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0x0A
         b[6] = 0x06
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x0C
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -595,34 +595,34 @@ class InspireHandR:
                 actangle[i - 1] = getdata[i * 2 + 5] + (getdata[i * 2 + 6] << 8)
         return actangle
 
-    # 读取实际的受力
+    # Read actual force values
     def get_actforce(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0x2E
         b[6] = 0x06
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x0C
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -639,41 +639,41 @@ class InspireHandR:
             else:
                 actforce[i - 1] = getdata[i * 2 + 5] + (getdata[i * 2 + 6] << 8)
 
-        # 串口收到的为又两个字节组成的无符号十六进制数，十进制的表示范围为0～65536，而实际数据为有符号的数据，表示力的不同方向，范围为-32768~32767，
-        # 因此需要对收到的数据进行处理，得到实际力传感器的数据：当读数大于32767时，次数减去65536即可。
+        # Serial reads two-byte unsigned hex values (0–65536). Actual force values are signed (-32768 to 32767),
+        # so convert readings >32767 by subtracting 65536 to get the real force value.
         for i in range(len(actforce)):
             if actforce[i] > 32767:
                 actforce[i] = actforce[i] - 65536
         return actforce
 
-    # 读取电流
+    # Read current
     def get_current(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0x3A
         b[6] = 0x06
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x0C
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -690,34 +690,34 @@ class InspireHandR:
                 current[i - 1] = getdata[i * 2 + 5] + (getdata[i * 2 + 6] << 8)
         return current
 
-    # 读取故障信息
+    # Read fault information
     def get_error(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0x46
         b[6] = 0x06
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x06
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -731,34 +731,34 @@ class InspireHandR:
             error[i - 1] = getdata[i + 6]
         return error
 
-    # 读取状态信息
+    # Read status information
     def get_status(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0x4C
         b[6] = 0x06
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x06
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -771,34 +771,34 @@ class InspireHandR:
             status[i - 1] = getdata[i + 6]
         return status
 
-    # 读取温度信息
+    # Read temperature information
     def get_temp(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 读操作
+        # Read operation
         b[4] = 0x11
 
-        # 地址
+        # Address
         b[5] = 0x52
         b[6] = 0x06
 
-        # 读取寄存器的长度
+        # Length of registers to read
         b[7] = 0x06
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -812,34 +812,34 @@ class InspireHandR:
             temp[i - 1] = getdata[i + 6]
         return temp
 
-    # 清除错误
+    # Clear errors
     def set_clear_error(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0xEC
         b[6] = 0x03
 
-        # 数据
+        # Data
         b[7] = 0x01
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -848,34 +848,34 @@ class InspireHandR:
 
         getdata = self.ser.read(9)
 
-    # 保存参数到FLASH
+    # Save parameters to FLASH
     def set_save_flash(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0xED
         b[6] = 0x03
 
-        # 数据
+        # Data
         b[7] = 0x01
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -884,34 +884,34 @@ class InspireHandR:
 
         getdata = self.ser.read(18)
 
-    # 力传感器校准
+    # Force sensor calibration
     def gesture_force_clb(self):
         datanum = 0x04
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0xF1
         b[6] = 0x03
 
-        # 数据
+        # Data
         b[7] = 0x01
 
-        # 校验和
+        # Checksum
         b[8] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -920,10 +920,10 @@ class InspireHandR:
 
         getdata = self.ser.read(18)
 
-    # 设置上电速度
+    # Set default speed on power-up
     def setdefaultspeed(self, speed1, speed2, speed3, speed4, speed5, speed6):
         if speed1 < 0 or speed1 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if speed2 < 0 or speed2 > 1000:
             return
@@ -938,24 +938,24 @@ class InspireHandR:
 
         datanum = 0x0F
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0x08
         b[6] = 0x04
 
-        # 数据
+        # Data
         b[7] = self.data2bytes(speed1)[0]
         b[8] = self.data2bytes(speed1)[1]
 
@@ -974,10 +974,10 @@ class InspireHandR:
         b[17] = self.data2bytes(speed6)[0]
         b[18] = self.data2bytes(speed6)[1]
 
-        # 校验和
+        # Checksum
         b[19] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -986,10 +986,10 @@ class InspireHandR:
 
         getdata = self.ser.read(9)
 
-    # 设置上电力控阈值
+    # Set default force thresholds on power-up
     def setdefaultpower(self, power1, power2, power3, power4, power5, power6):
         if power1 < 0 or power1 > 1000:
-            print('数据超出正确范围：0-1000')
+            print('Value out of valid range: 0 to 1000')
             return
         if power2 < 0 or power2 > 1000:
             return
@@ -1004,24 +1004,24 @@ class InspireHandR:
 
         datanum = 0x0F
         b = [0] * (datanum + 5)
-        # 包头
+        # Header
         b[0] = 0xEB
         b[1] = 0x90
 
-        # hand_id号
+        # hand_id
         b[2] = self.hand_id
 
-        # 数据个数
+        # Number of data items
         b[3] = datanum
 
-        # 写操作
+        # Write operation
         b[4] = 0x12
 
-        # 地址
+        # Address
         b[5] = 0x14
         b[6] = 0x04
 
-        # 数据
+        # Data
         b[7] = self.data2bytes(power1)[0]
         b[8] = self.data2bytes(power1)[1]
 
@@ -1040,10 +1040,10 @@ class InspireHandR:
         b[17] = self.data2bytes(power6)[0]
         b[18] = self.data2bytes(power6)[1]
 
-        # 校验和
+        # Checksum
         b[19] = self.checknum(b, datanum + 4)
 
-        # 向串口发送数据
+        # Send data to serial port
         putdata = b''
 
         for i in range(1, datanum + 6):
@@ -1095,12 +1095,12 @@ class InspireHandR:
         return
 
     def reset(self):
-        angle1 = self.f1_init_angle  # #小拇指伸直1000，弯曲0
-        angle2 = self.f2_init_angle  # #无名指伸直1000, 弯曲0
-        angle3 = self.f3_init_angle  # 中指伸直1000，弯曲0
-        angle4 = self.f4_init_angle  # 食指伸直1000，弯曲0
-        angle5 = self.f5_init_angle  # 大拇指伸直1000，弯曲0
-        angle6 = self.f6_init_angle  # 大拇指转向掌心 0, 100表示拇指与食指平行
+        angle1 = self.f1_init_angle  # Little finger straight 1000, bent 0
+        angle2 = self.f2_init_angle  # Ring finger straight 1000, bent 0
+        angle3 = self.f3_init_angle  # Middle finger straight 1000, bent 0
+        angle4 = self.f4_init_angle  # Index finger straight 1000, bent 0
+        angle5 = self.f5_init_angle  # Thumb straight 1000, bent 0
+        angle6 = self.f6_init_angle  # Thumb rotates toward the palm 0; 100 means thumb parallel to index
         self.setangle(angle1, angle2, angle3, angle4, angle5, angle6)
         return
 
