@@ -8,7 +8,7 @@ import MinkowskiEngine as ME
 
 from resunet import ResUNet14
 from res4unet import Res4UNet14
-from loss import process_grasp_labels, match_grasp_view_and_label
+from .label_generation import process_grasp_labels, match_grasp_view_and_label
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
